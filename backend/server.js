@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const port = 4000;
+const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -47,23 +47,23 @@ todoRoutes.route('/add').post((req, res) => {
 
 todoRoutes.route('/update/:id').post((req, res) => {
   TodoModel.findById(req.params.id, (err, todo) => {
-      if (!todo) {
-        res.status(404).send("data is not found");
-      }       
-      else {      
-        todo.todoDescription = req.body.todoDescription;
-        todo.todoResponsible = req.body.todoResponsible;
-        todo.todoPriority = req.body.todoPriority;
-        todo.todoCompleted = req.body.todoCompleted;
+    if (!todo) {
+      res.status(404).send("data is not found");
+    }       
+    else {      
+      todo.todoDescription = req.body.todoDescription;
+      todo.todoResponsible = req.body.todoResponsible;
+      todo.todoPriority = req.body.todoPriority;
+      todo.todoCompleted = req.body.todoCompleted;
 
-        todo.save()
-          .then(todo => {
-            res.json('Todo updated!');
-          })
-          .catch(err => {
-            res.status(400).send("Update not possible");
-          });
-      }  
+      todo.save()
+        .then(todo => {
+          res.json('Todo updated!');
+        })
+        .catch(err => {
+          res.status(400).send("Update not possible");
+        });
+    }  
   });
 });
 
